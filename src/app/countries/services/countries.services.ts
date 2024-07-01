@@ -44,7 +44,10 @@ export class CountriesService {
 
   searchCountry( term:string ):Observable<Country[]>{
     const url = `${ this.apiUrl }/name/${ term }`;
-    return this.getCountriesRequest( url );
+    return this.getCountriesRequest( url )
+    .pipe(
+      tap( countries => this.cacheStore.byCountries = { term,countries})
+    );
   }
 
   searchRegion( region:string ):Observable<Country[]>{
